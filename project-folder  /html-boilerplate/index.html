@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>DrawIT</title>
-    <!-- Link to Bulma CSS -->
+
+    <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia&effect=fire">
-    <script src="script.js"></script>
+
+    <!-- Internal Styles -->
     <style>
-        /* Your custom styles */
+        /* General Body and HTML Styling */
         body, html {
             height: 100%;
             margin: 0;
@@ -18,8 +20,38 @@
             scroll-behavior: smooth;
         }
 
+        /* Navbar Styling */
+        .navbar {
+            background-color: #f8f8f8;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-menu {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .navbar-start, .navbar-end {
+            display: flex;
+        }
+
+        /* Hero section flex layout */
         .hero-image {
-            background-image: linear-gradient(rgba(254, 169, 169, 0.5), rgba(240, 42, 200, 0.5));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .hero-text {
+            text-align: center;
+            color: white;
+        }
+
+        /* Hero Image & Text Styles */
+        .hero-image {
+            background-image: linear-gradient(rgba(245, 12, 12, 0.5), rgba(255, 138, 237, 0.954)), url("france.webp");
             height: 100%;
             background-position: center;
             background-repeat: no-repeat;
@@ -36,64 +68,98 @@
             color: white;
         }
 
-        .hero-text button {
-            border: none;
-            outline: 0;
-            display: inline-block;
-            padding: 10px 25px;
-            color: black;
-            background-color: #ddd;
-            text-align: center;
-            cursor: pointer;
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #f0ebeb;
         }
 
-        .hero-text button:hover {
-            background-color: #555;
-            color: white;
+        .navbar.dark-mode {
+            background-color: #1e1e1e !important;
         }
 
-        /* Other styles for content */
-        .container {
-            position: relative;
-            width: 50%;
+        .hero-image.dark-mode {
+            background-image: linear-gradient(rgba(106, 105, 105, 0.9), rgba(0, 0, 0, 0.9)), url("france.webp");
         }
 
-        .image {
-            display: block;
-            width: 100%;
-            height: auto;
+        .container.dark-mode, .section.dark-mode, .footer.dark-mode {
+            background-color: #1e1e1e;
+            color: #ffffff;
         }
 
-        .overlay {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            width: 100%;
-            opacity: 0;
-            transition: .5s ease;
-            background-color: #ffffff;
+        .button.dark-mode {
+            background-color: #333;
+            color: #ffffff;
+            border-color: #555;
         }
 
-        .container:hover .overlay {
-            opacity: 1;
+        /* Navbar Styling */
+        .navbar.dark-mode .navbar-item,
+        .navbar.dark-mode .navbar-link {
+            color: #ffffff !important;
         }
 
-        .text {
-            color: brown;
-            font-size: 40px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
+        .navbar.dark-mode .navbar-brand .title {
+            color: #ffffff !important;
+        }
+
+        .navbar.dark-mode .navbar-dropdown .navbar-item {
+            color: #000000 !important;  
+        }
+
+        /* Mobile-first layout adjustments */
+        @media screen and (max-width: 600px) {
+            .navbar-menu {
+                flex-direction: column;
+                align-items: flex-start;
+                display: none;
+            }
+
+            .navbar-burger {
+                display: block;
+                cursor: pointer;
+            }
+
+            .navbar-item {
+                text-align: center;
+                padding: 10px 0;
+            }
+
+            .hero-text h1 {
+                font-size: 35px;
+            }
+        }
+
+        /* Tablet layout */
+        @media screen and (max-width: 900px) {
+            .navbar-menu {
+                flex-direction: column;
+                align-items: center;
+            }
+            .hero-text h1 {
+                font-size: 40px;
+            }
+        }
+
+        /* Desktop layout */
+        @media screen and (min-width: 1200px) {
+            .navbar-menu {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+            }
+            .hero-text h1 {
+                font-size: 50px;
+            }
+            .button {
+                font-size: 20px;
+                padding: 15px;
+            }
         }
     </style>
+
 </head>
 <body>
-
     <!-- Navbar -->
     <nav class="navbar is-light" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
@@ -113,37 +179,22 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item">
-                    Home
-                </a>
-
-                <a class="navbar-item">
-                    Features
-
-                </a>
-
+                <a class="navbar-item">Home</a>
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        Gallery
-                    </a>
+                    <a class="navbar-link">Features</a>
                     <div class="navbar-dropdown">
-                        <a class="navbar-item">
-                            All Drawings
-
-                        </a>
-                        <a class="navbar-item">
-                            My Drawings
-
-                        </a>
-                        <a class="navbar-item">
-                            Shared Drawings
-
-
-                        </a>
+                        <button class="navbar-item" id="light-mode">Light Mode</button>
+                        <button class="navbar-item" id="dark-mode">Dark Mode</button>
+                    </div>
+                </div>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">Gallery</a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item">All Drawings</a>
+                        <a class="navbar-item">My Drawings</a>
+                        <a class="navbar-item">Shared Drawings</a>
                         <hr class="navbar-divider">
-                        <a class="navbar-item">
-                            Upload Drawing
-                        </a>
+                        <a class="navbar-item">Upload Drawing</a>
                     </div>
                 </div>
             </div>
@@ -151,9 +202,7 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-danger">
-                            <strong>Sign up</strong>
-                        </a>
+                        <a href="signup.html" class="button is-danger"><strong>Sign up</strong></a>
                         <button class="button" onclick="alert('DOWNLOADED!');">Download</button>
                     </div>
                 </div>
@@ -161,23 +210,21 @@
         </div>
     </nav>
 
-    <!-- Main Section (Hero Section) -->
+    <!-- Hero Image Section -->
     <div class="hero-image">
         <div class="hero-text">
             <h1 style="font-size:40px">DrawIT</h1>
-        
             <button class="button is-warning is-light">
                 <a href="#section4">Start Drawing</a>
             </button>
         </div>
     </div>
 
-    <!-- Main content section with placeholder text -->
+    <!-- Main Content Section -->
     <main>
         <section class="section">
             <div class="container">
                 <h1 class="title"></h1>
-                
             </div>
         </section>
     </main>
@@ -196,6 +243,56 @@
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <!-- Dark/Light Mode Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const lightModeBtn = document.getElementById("light-mode");
+            const darkModeBtn = document.getElementById("dark-mode");
+            const body = document.body;
+            const elementsToToggle = document.querySelectorAll(".navbar, .hero-image, .container, .section, .footer, .button");
+
+            // Function to toggle dark mode
+            function toggleDarkMode(enable) {
+                if (enable) {
+                    body.classList.add("dark-mode");
+                    elementsToToggle.forEach(el => el.classList.add("dark-mode"));
+                    localStorage.setItem("theme", "dark");  // Store theme preference
+                } else {
+                    body.classList.remove("dark-mode");
+                    elementsToToggle.forEach(el => el.classList.remove("dark-mode"));
+                    localStorage.setItem("theme", "light");  // Store theme preference
+                }
+            }
+
+            // Check local storage for theme preference and apply it on page load
+            const savedTheme = localStorage.getItem("theme");
+            if (savedTheme === "dark") {
+                toggleDarkMode(true);  // Apply dark mode if saved in localStorage
+            } else {
+                toggleDarkMode(false);  // Default to light mode if no preference is saved
+            }
+
+            // Event listeners for light/dark mode buttons
+            darkModeBtn.addEventListener("click", () => toggleDarkMode(true));  // Enable dark mode
+            lightModeBtn.addEventListener("click", () => toggleDarkMode(false));  // Enable light mode
+        });
+
+        // Handle navbar burger (for smaller screens)
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+            if (navbarBurgers.length > 0) {
+                navbarBurgers.forEach((el) => {
+                    el.addEventListener('click', () => {
+                        const target = el.dataset.target;
+                        const navbarMenu = document.getElementById(target);
+                        el.classList.toggle('is-active');
+                        navbarMenu.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
+
